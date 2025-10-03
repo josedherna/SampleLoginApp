@@ -29,13 +29,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
-@Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var usernameInput by rememberSaveable { mutableStateOf("") }
     var passwordInput by rememberSaveable { mutableStateOf("") }
 
@@ -95,6 +94,7 @@ fun LoginScreen() {
                                 onValueChange = { passwordInput = it} )
                         }
                     }
+                    //Second inner box that contains the login button and create account button
                     Box(modifier = Modifier.fillMaxWidth()
                         .heightIn(min = 130.dp).padding(start = 60.dp,
                             end = 60.dp),
@@ -112,7 +112,7 @@ fun LoginScreen() {
                                 fontSize = 15.sp,
                                 color = MaterialTheme.colorScheme.secondary,
                                 modifier = Modifier.clickable {
-                                    ;
+                                    navController.navigate("registration_screen")
                                 })
                         }
                     }
