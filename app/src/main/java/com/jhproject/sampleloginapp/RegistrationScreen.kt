@@ -1,5 +1,6 @@
 package com.jhproject.sampleloginapp
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,21 +29,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import java.util.regex.Pattern
 
-@Preview
 @Composable
-fun RegistrationScreen() {
-    var passwordInput by rememberSaveable { mutableStateOf("") }
+fun RegistrationScreen(navController: NavController, userMap: HashMap<String, User>) {
     var firstNameInput by rememberSaveable { mutableStateOf("") }
     var lastNameInput by rememberSaveable { mutableStateOf("") }
     var emailInput by rememberSaveable { mutableStateOf("") }
+    var passwordInput by rememberSaveable { mutableStateOf("") }
     var dobInput by rememberSaveable { mutableStateOf("") }
 
     var firstNameValidation by rememberSaveable { mutableStateOf<String?>(null) }
@@ -50,6 +51,19 @@ fun RegistrationScreen() {
     var emailValidation by rememberSaveable { mutableStateOf<String?>(null) }
     var passwordValidation by rememberSaveable { mutableStateOf<String?>(null) }
     var dobValidation by rememberSaveable { mutableStateOf<String?>(null) }
+
+    val validFields = firstNameValidation == null
+            && lastNameValidation == null
+            && emailValidation == null
+            && passwordValidation == null
+            && dobValidation == null
+            && firstNameInput.isNotEmpty()
+            && lastNameInput.isNotEmpty()
+            && emailInput.isNotEmpty()
+            && passwordInput.isNotEmpty()
+            && dobInput.isNotEmpty()
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -166,7 +180,20 @@ fun RegistrationScreen() {
                     ) {
                         Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    if(validFields) {
+                                        userMap.put(emailInput, User(emailInput,
+                                            passwordInput,
+                                            firstNameInput,
+                                            lastNameInput,
+                                            dobInput))
+                                        navController.navigate("login_screen")
+                                        Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
+                                    }
+                                    else {
+                                        Toast.makeText(context, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
                                 modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
                                 shape = RoundedCornerShape(10.dp)
                             ) {
@@ -181,7 +208,7 @@ fun RegistrationScreen() {
                                 fontSize = 15.sp,
                                 color = MaterialTheme.colorScheme.secondary,
                                 modifier = Modifier.clickable {
-                                    //navController.navigate("registration_screen")
+                                    navController.navigate("login_screen")
                                 })
                         }
                     }

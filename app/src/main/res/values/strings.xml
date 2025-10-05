@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">SampleLoginApp</string>
+    <string name="app_name">User Info</string>
     <string name="welcome_greeting">Hello There!</string>
     <string name="login_prompt">Login</string>
+    <string name="logout_prompt">Log out</string>
     <string name="username_prompt">Email</string>
     <string name="password_prompt">Password</string>
     <string name="createacc_prompt">Create an Account</string>
@@ -11,4 +12,6 @@
     <string name="have_account">Already Have an Account? Login</string>
     <string name="signup_prompt">Sign Up</string>
     <string name="dob_prompt">Date of Birth</string>
+    <string name="userinfo_prompt">User Info</string>
+    <string name="landing_heading">Welcome!</string>
 </resources>

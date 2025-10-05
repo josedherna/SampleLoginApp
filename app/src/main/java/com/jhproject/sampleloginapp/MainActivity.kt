@@ -11,6 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.jhproject.sampleloginapp.ui.theme.SampleLoginAppTheme
 
 class MainActivity : ComponentActivity() {
+    val userMap = HashMap<String, User>()
+    val userViewModel = UserViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,10 +22,13 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "login_screen", builder = {
                     composable("login_screen") {
-                        LoginScreen(navController)
+                        LoginScreen(navController, userViewModel, userMap)
                     }
                     composable("registration_screen") {
-                        RegistrationScreen()
+                        RegistrationScreen(navController, userMap)
+                    }
+                    composable("landingpage_screen") {
+                        LandingPage(navController, userViewModel)
                     }
                 })
             }
